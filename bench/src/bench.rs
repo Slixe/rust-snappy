@@ -1,7 +1,8 @@
 use std::time::Duration;
 
 use criterion::{
-    criterion_group, criterion_main, Bencher, BenchmarkId, Criterion, Throughput,
+    criterion_group, criterion_main, Bencher, BenchmarkId, Criterion,
+    Throughput,
 };
 
 const CORPUS_HTML: &'static [u8] = include_bytes!("../../data/html");
