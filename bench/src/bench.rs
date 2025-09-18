@@ -158,18 +158,16 @@ fn define(
     group_name: &str,
     bench_name: &str,
     corpus: &[u8],
-    mut bench: impl FnMut(&mut Bencher) + 'static,
+    bench: impl FnMut(&mut Bencher) + 'static,
 ) {
     let mut group = c.benchmark_group(group_name);
 
-    group.throughput(Throughput::Bytes(corpus.len() as u64));
-    group.sample_size(50);
-    group.warm_up_time(Duration::from_millis(500));
-    group.measurement_time(Duration::from_secs(3));
-
-    group.bench_function(BenchmarkId::new(bench_name, corpus.len()), |b| {
-        bench(b);
-    });
+    group
+        .throughput(Throughput::Bytes(corpus.len() as u64))
+        .sample_size(50)
+        .warm_up_time(Duration::from_millis(500))
+        .measurement_time(Duration::from_secs(3))
+        .bench_function(BenchmarkId::new(bench_name, corpus.len()), bench);
 
     group.finish();
 }
